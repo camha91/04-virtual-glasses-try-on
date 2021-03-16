@@ -1,6 +1,22 @@
 import React, { Component } from "react";
+import dataGlasses from "../Data/dataGlasses.json";
 
 export default class GlassesTryOn extends Component {
+  renderGlasses = () => {
+    let contentGlasses = dataGlasses.map((glassesItem, index) => {
+      return (
+        <img
+          className="ml-2 p-2 border border-width-1"
+          style={{ width: "115px", cursor: "pointer" }}
+          key={index}
+          src={glassesItem.url}
+          alt={glassesItem.name}
+        />
+      );
+    });
+    return contentGlasses;
+  };
+
   render() {
     const styledGlasses = {
       width: "150px",
@@ -72,6 +88,10 @@ export default class GlassesTryOn extends Component {
                 />
               </div>
             </div>
+          </div>
+          {/*  Div contains all glasses */}
+          <div className="bg-light container text-center mt-5 d-flex justify-content-center p-5">
+            {this.renderGlasses()}
           </div>
         </div>
       </div>
