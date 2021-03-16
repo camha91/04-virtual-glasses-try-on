@@ -2,10 +2,24 @@ import React, { Component } from "react";
 import dataGlasses from "../Data/dataGlasses.json";
 
 export default class GlassesTryOn extends Component {
+  state = {
+    glassesCurrent: {
+      id: 2,
+      price: 50,
+      name: "GUCCI G8759H",
+      url: "./glassesImage/v2.png",
+      desc:
+        "Light pink square lenses define these sunglasses, ending with another of pearl effect tip. ",
+    },
+  };
+
   renderGlasses = () => {
     let contentGlasses = dataGlasses.map((glassesItem, index) => {
       return (
         <img
+          onClick={() => {
+            this.changedGlasses(glassesItem);
+          }}
           className="ml-2 p-2 border border-width-1"
           style={{ width: "115px", cursor: "pointer" }}
           key={index}
@@ -17,12 +31,33 @@ export default class GlassesTryOn extends Component {
     return contentGlasses;
   };
 
+  changedGlasses = (newGlasses) => {
+    this.setState({
+      glassesCurrent: newGlasses,
+    });
+  };
+
   render() {
+    const keyFrame = `@keyframes animChangeGlasses${Date.now()} {
+        from {
+            width: 0;
+            transform: rotate(45deg);
+            opacity: 0;
+        }
+        to {
+            width: 150px;
+            transform: rotate(0deg);
+            opacity: 0.8;
+        }
+    }`;
+
     const styledGlasses = {
       width: "150px",
       top: "75px",
       right: "70px",
       opacity: "0.8",
+      tranform: "rotate(0deg)",
+      animation: `animChangeGlasses${Date.now()} 1s`,
     };
 
     const infoGlasses = {
@@ -43,6 +78,7 @@ export default class GlassesTryOn extends Component {
           minHeight: "2000px",
         }}
       >
+        <style>{keyFrame}</style>
         <div style={{ backgroundColor: "rgba(0,0,0,.5)", minHeight: "2000px" }}>
           <h3
             className="text-center text-light p-5"
@@ -62,20 +98,20 @@ export default class GlassesTryOn extends Component {
                   />
                   <img
                     style={styledGlasses}
-                    className="position-absolute"
-                    src="./glassesImage/v1.png"
-                    alt="sample-glasses"
+                    className="position-absolute glassesStyle"
+                    src={this.state.glassesCurrent.url}
+                    alt={this.state.glassesCurrent.name}
                   />
                   <div style={infoGlasses} className="position-relative">
                     <span
-                      style={{ fontSize: "15px" }}
+                      style={{ fontSize: "15px", color: "#00CED1" }}
                       className="font-weight-bold"
                     >
-                      Glasses Name
+                      {this.state.glassesCurrent.name}
                     </span>
                     <br />
                     <span style={{ fontSize: "13px", fontWeight: "400" }}>
-                      Description
+                      {this.state.glassesCurrent.desc}
                     </span>
                   </div>
                 </div>
